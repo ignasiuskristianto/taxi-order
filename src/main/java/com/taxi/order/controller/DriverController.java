@@ -1,5 +1,6 @@
 package com.taxi.order.controller;
 
+import java.awt.Point;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,13 @@ public class DriverController {
 		Driver driver = driverRepository.findById(driverId).orElseThrow(() -> new ResourceNotFoundException("Driver not found for this id :: " + driverId));
 		driver.setNama(driverDetails.getNama());
 		driver.setLoc(driverDetails.getLoc());
+		return ResponseEntity.ok(this.driverRepository.save(driver));
+	}
+	
+	@PutMapping("driver/updateLoc/{id}")
+	public ResponseEntity<Driver> updateLatLonDriver(@PathVariable(value = "id") Long driverId, @Validated @RequestBody Point locDetails) throws ResourceNotFoundException {
+		Driver driver = driverRepository.findById(driverId).orElseThrow(() -> new ResourceNotFoundException("Driver not found for this id :: " + driverId));
+		driver.setLoc(locDetails);
 		return ResponseEntity.ok(this.driverRepository.save(driver));
 	}
 	
