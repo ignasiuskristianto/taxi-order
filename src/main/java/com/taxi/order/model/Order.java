@@ -1,8 +1,7 @@
 package com.taxi.order.model;
 
-import java.awt.Point;
 import java.math.BigInteger;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,14 +28,20 @@ public class Order {
 	@JoinColumn(name = "user.id")
 	private User user;
 	
-	@Column(name = "order_date")
-	private Date order_date;
+	@Column(name = "order_date", insertable = false, updatable = false, columnDefinition="timestamp default current_timestamp")
+	private LocalDateTime orderDate;
 	
-	@Column(name = "start_point")
-	private Point start_point;
+	@Column(name = "lat_start_point")
+	private double latStartPoint;
 	
-	@Column(name = "dest_point")
-	private Point dest_point;
+	@Column(name = "lng_start_point")
+	private double lngStartPoint;
+	
+	@Column(name = "lat_dest_point")
+	private double latDestPoint;
+	
+	@Column(name = "lng_dest_point")
+	private double lngDestPoint;
 	
 	@Column(name = "fee")
 	private BigInteger fee;
@@ -48,14 +53,24 @@ public class Order {
 		super();
 	}
 
-	public Order(Driver driver, User user, Date order_date, Point start_point, Point dest_point,
+	public Order(double latStartPoint, double lngStartPoint, double latDestPoint, double lngDestPoint) {
+		super();
+		this.latStartPoint = latStartPoint;
+		this.lngStartPoint = lngStartPoint;
+		this.latDestPoint = latDestPoint;
+		this.lngDestPoint = lngDestPoint;
+	}
+
+	public Order(Driver driver, User user, LocalDateTime orderDate, double latStartPoint, double lngStartPoint, double latDestPoint, double lngDestPoint,
 			BigInteger fee, char flag) {
 		super();
 		this.driver = driver;
 		this.user = user;
-		this.order_date = order_date;
-		this.start_point = start_point;
-		this.dest_point = dest_point;
+		this.orderDate = orderDate;
+		this.latStartPoint = latStartPoint;
+		this.lngStartPoint = lngStartPoint;
+		this.latDestPoint = latDestPoint;
+		this.lngDestPoint = lngDestPoint;
 		this.fee = fee;
 		this.flag = flag;
 	}
@@ -84,28 +99,44 @@ public class Order {
 		this.user = user;
 	}
 
-	public Date getOrder_date() {
-		return order_date;
+	public LocalDateTime getOrderDate() {
+		return orderDate;
 	}
 
-	public void setOrder_date(Date order_date) {
-		this.order_date = order_date;
+	public void setOrderDate(LocalDateTime orderDate) {
+		this.orderDate = orderDate;
 	}
 
-	public Point getStart_point() {
-		return start_point;
+	public double getLatStartPoint() {
+		return latStartPoint;
 	}
 
-	public void setStart_point(Point start_point) {
-		this.start_point = start_point;
+	public void setLatStartPoint(double latStartPoint) {
+		this.latStartPoint = latStartPoint;
 	}
 
-	public Point getDest_point() {
-		return dest_point;
+	public double getLngStartPoint() {
+		return lngStartPoint;
 	}
 
-	public void setDest_point(Point dest_point) {
-		this.dest_point = dest_point;
+	public void setLngStartPoint(double lngStartPoint) {
+		this.lngStartPoint = lngStartPoint;
+	}
+
+	public double getLatDestPoint() {
+		return latDestPoint;
+	}
+
+	public void setLatDestPoint(double latDestPoint) {
+		this.latDestPoint = latDestPoint;
+	}
+
+	public double getLngDestPoint() {
+		return lngDestPoint;
+	}
+
+	public void setLngDestPoint(double lngDestPoint) {
+		this.lngDestPoint = lngDestPoint;
 	}
 
 	public BigInteger getFee() {
@@ -123,5 +154,5 @@ public class Order {
 	public void setFlag(char flag) {
 		this.flag = flag;
 	}
-
+	
 }
